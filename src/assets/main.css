@@ -1,0 +1,70 @@
+@import './base.css';
+@import 'tailwindcss';
+@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes:
+    light,
+    dark,
+    mytheme --default;
+}
+
+@plugin "daisyui/theme" {
+  name: 'mytheme';
+  default: true; /* set as default */
+  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: light; /* color of browser-provided UI */
+
+  --color-base-100: #101827; /* Fondo principal (muy oscuro) */
+  --color-base-200: #1f2937; /* Fondo tarjetas o secciones */
+  --color-base-300: #374151; /* Variante más clara para contraste */
+  --color-base-content: #f9fafb; /* Texto claro sobre fondo oscuro */
+
+  --color-primary: #3b82f6; /* Azul brillante - botones principales */
+  --color-primary-content: oklch(98% 0.01 240); /* Contraste del azul */
+
+  --color-secondary: #fbbf24; /* Amarillo suave - advertencias */
+  --color-secondary-content: oklch(20% 0.05 80); /* Texto oscuro sobre amarillo */
+
+  --color-accent: #7dc8c2; /* Turquesa suave - acentos */
+  --color-accent-content: oklch(98% 0.01 160);
+
+  --color-neutral: #9ca3af; /* Gris claro para texto secundario */
+  --color-neutral-content: #f9fafb;
+
+  --color-info: #60a5fa; /* Azul informativo */
+  --color-info-content: oklch(98% 0.01 220);
+
+  --color-success: #22c55e; /* Verde para estado exitoso */
+  --color-success-content: oklch(98% 0.01 140);
+
+  --color-warning: #f59e0b; /* Naranja fuerte - advertencia */
+  --color-warning-content: oklch(20% 0.05 80);
+
+  --color-error: #ef4444; /* Rojo alerta - errores */
+  --color-error-content: oklch(98% 0.01 30);
+
+  /* border radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
+}
+
+body {
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  transition:
+    background-color 0.5s,
+    color 0.5s;
+}
