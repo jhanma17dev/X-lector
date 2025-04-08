@@ -15,9 +15,9 @@
   prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
   color-scheme: light; /* color of browser-provided UI */
 
-  --color-base-100: #101827; /* Fondo principal (muy oscuro) */
+  --color-base-100: #080f18; /* Fondo principal (muy oscuro) */
   --color-base-200: #1f2937; /* Fondo tarjetas o secciones */
-  --color-base-300: #374151; /* Variante más clara para contraste */
+  --color-base-300: rgba(52, 58, 65, 0.8); /* Variante más clara para contraste */
   --color-base-content: #f9fafb; /* Texto claro sobre fondo oscuro */
 
   --color-primary: #3b82f6; /* Azul brillante - botones principales */
