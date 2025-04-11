@@ -20,7 +20,7 @@
   --color-base-300: rgba(52, 58, 65, 0.8); /* Variante más clara para contraste */
   --color-base-content: #f9fafb; /* Texto claro sobre fondo oscuro */
 
-  --color-primary: #3b82f6; /* Azul brillante - botones principales */
+  --color-primary: rgba(67, 65, 255, 1); /* Azul brillante - botones principales */
   --color-primary-content: oklch(98% 0.01 240); /* Contraste del azul */
 
   --color-secondary: #fbbf24; /* Amarillo suave - advertencias */
