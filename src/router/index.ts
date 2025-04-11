@@ -7,6 +7,23 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: () => import('../layouts/DashboardLayout.vue'),
+      children: [
+        {
+          path: 'x-ray',
+          name: 'Xray',
+          component: () => import('../views/XRay.vue'),
+        },
+        {
+          path: 'history',
+          name: 'History',
+          component: () => import('../views/History.vue'),
+        },
+        {
+          path: 'help',
+          name: 'Help',
+          component: () => import('../views/Help.vue'),
+        },
+      ],
     },
   ],
 })
