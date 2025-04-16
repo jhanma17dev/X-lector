@@ -17,7 +17,7 @@
 
   --color-base-100: #080f18; /* Fondo principal (muy oscuro) */
   --color-base-200: #1f2937; /* Fondo tarjetas o secciones */
-  --color-base-300: rgba(52, 58, 65, 0.8); /* Variante más clara para contraste */
+  --color-base-300: rgba(52, 58, 65, 0.9); /* Variante más clara para contraste */
   --color-base-content: #f9fafb; /* Texto claro sobre fondo oscuro */
 
   --color-primary: rgba(67, 65, 255, 1); /* Azul brillante - botones principales */
@@ -38,11 +38,11 @@
   --color-success: #22c55e; /* Verde para estado exitoso */
   --color-success-content: oklch(98% 0.01 140);
 
-  --color-warning: #f59e0b; /* Naranja fuerte - advertencia */
-  --color-warning-content: oklch(20% 0.05 80);
+  --color-warning: #f59b08; /* Naranja fuerte - advertencia */
+  --color-warning-content: rgb(218, 210, 190);
 
-  --color-error: #ef4444; /* Rojo alerta - errores */
-  --color-error-content: oklch(98% 0.01 30);
+  --color-error: #f42423; /* Rojo alerta - errores */
+  --color-error-content: rgb(209, 193, 194);
 
   /* border radius */
   --radius-selector: 1rem;
