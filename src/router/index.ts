@@ -11,7 +11,7 @@ const router = createRouter({
         {
           path: 'x-ray',
           name: 'Xray',
-          component: () => import('../views/XRay.vue'),
+          component: () => import('../views/XRay/index.vue'),
         },
         {
           path: 'history',

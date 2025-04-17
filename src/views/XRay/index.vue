@@ -1,18 +1,11 @@
 <template>
   <span class="text-2xl font-semibold pl-4">X-Ray Diagnosis</span>
 
-  <div v-if="!file"
-    class="w-full full-height outline-dashed outline-primary mt-6 rounded-2xl bg-primary/10 flex flex-col items-center justify-center text-sm font-semibold">
-    <span>Add an X-Ray file</span>
-    <span class="mt-1">Allowed Formats: DICOM, PDF, PNG, JPEG</span>
-    <button class="btn btn-primary rounded-full mt-4 text-sm" @click="handleFileUpload">
-      <span class="material-symbols-outlined"> add </span>
-      Add File
-      <input id="file-upload" type="file" class="hidden" accept=".dcm,.pdf,.png,.jpg,.jpeg" />
-    </button>
-  </div>
+  <!-- Show file upload component when no file is selected -->
+  <ImagePreview v-if="!file" @file-selected="onFileSelected" />
 
-  <div v-else class="w-full full-height mt-6 flex overflow-scroll no-scrollbar">
+  <!-- Show file preview and analysis when file is selected -->
+  <div v-else class="w-full full-height mt-6 flex">
     <div class="w-4/10 min-w-4/10 mr-8 rounded-2xl sticky top-0">
       <!-- Display file according to type -->
       <div v-if="fileType === 'image'" class="w-full h-full">
@@ -21,10 +14,10 @@
       <div v-else-if="fileType === 'pdf'" class="w-full h-full">
         <iframe :src="filePreview" class="w-full h-full rounded-2xl" title="PDF Document"></iframe>
       </div>
-    </div>
+          </div>
 
     <div class="relative flex flex-col">
-      <div class="mask-opacity chat overflow-scroll no-scrollbar">
+      <div class="mask-opacity chat overflow-scroll no-scrollbar flex flex-col">
         <div class="w-full bg-base-300 rounded-2xl flex flex-col border border-neutral mb-6">
           <span class="text-xl font-bold p-4">Conclusions</span>
 
@@ -109,7 +102,8 @@
         </div>
       </div>
 
-      <input class="w-full bg-base-300 rounded-2xl flex flex-col border border-neutral h-[40px] px-4">
+      <input class="absolute bottom-0 w-full bg-base-300 rounded-2xl flex flex-col border border-neutral h-[40px] px-4" 
+        type="text" placeholder="Ask something..." />
       </input>
     </div>
   </div>
@@ -117,6 +111,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import ImagePreview from './ImageUpload.vue'
 
 const file = ref<File | null>(null)
 const filePreview = ref<string>('')
@@ -134,19 +129,19 @@ const fileType = computed(() => {
   }
 })
 
-const handleFileUpload = () => {
-  const fileInput = document.getElementById('file-upload') as HTMLInputElement
+const onFileSelected = (data: { file: File, preview: string, type: string }) => {
+  file.value = data.file
+  filePreview.value = data.preview
+  console.log('File received in parent:', file.value)
+}
 
-  fileInput.onchange = () => {
-    const selectedFile = fileInput.files?.[0]
-    if (selectedFile) {
-      file.value = selectedFile
-      filePreview.value = URL.createObjectURL(selectedFile)
-      console.log('Selected file:', file.value)
-    }
+const clearFile = () => {
+  if (filePreview.value) {
+    URL.revokeObjectURL(filePreview.value)
   }
-
-  fileInput.click()
+  
+  file.value = null
+  filePreview.value = ''
 }
 </script>
 
@@ -156,19 +151,20 @@ const handleFileUpload = () => {
 }
 
 .no-scrollbar {
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* Internet Explorer and Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
 }
 
-&::-webkit-scrollbar {
-  display: none;
-  /* Safari and Chrome */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 .chat {
   height: calc(100vh - 4rem - 200px);
+}
+
+.object-fit {
+  object-fit: contain;
 }
 
 .mask-opacity {
@@ -176,5 +172,10 @@ const handleFileUpload = () => {
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: left top;
+
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0));
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: left top;
 }
 </style>
