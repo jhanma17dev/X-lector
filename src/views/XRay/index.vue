@@ -2,19 +2,18 @@
   <span class="text-2xl font-semibold pl-4">X-Ray Diagnosis</span>
 
   <!-- Show file upload component when no file is selected -->
-  <ImagePreview v-if="!file" @file-selected="onFileSelected" />
+  <ImageUpload v-if="!file" @file-selected="onFileSelected" />
 
   <!-- Show file preview and analysis when file is selected -->
   <div v-else class="w-full full-height mt-6 flex">
     <div class="w-4/10 min-w-4/10 mr-8 rounded-2xl sticky top-0">
-      <!-- Display file according to type -->
-      <div v-if="fileType === 'image'" class="w-full h-full">
-        <img :src="filePreview" class="w-full h-full object-fit rounded-2xl" alt="X-Ray Image" />
-      </div>
-      <div v-else-if="fileType === 'pdf'" class="w-full h-full">
-        <iframe :src="filePreview" class="w-full h-full rounded-2xl" title="PDF Document"></iframe>
-      </div>
-          </div>
+      <ImagePreview 
+        :filePreview="filePreview"
+        :fileType="fileType"
+        :fileName="file?.name || ''"
+        @remove-file="clearFile"
+      />
+    </div>
 
     <div class="relative flex flex-col">
       <div class="mask-opacity chat overflow-scroll no-scrollbar flex flex-col">
@@ -102,7 +101,7 @@
         </div>
       </div>
 
-      <input class="absolute bottom-0 w-full bg-base-300 rounded-2xl flex flex-col border border-neutral h-[40px] px-4" 
+      <input class="absolute bottom-0 w-full bg-base-300 rounded-2xl flex flex-col border border-neutral h-[40px] px-4"
         type="text" placeholder="Ask something..." />
       </input>
     </div>
@@ -111,14 +110,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import ImagePreview from './ImageUpload.vue'
+import ImageUpload from './ImageUpload.vue'
+import ImagePreview from './ImagePreview.vue'
 
 const file = ref<File | null>(null)
 const filePreview = ref<string>('')
 
 // Determine file type for display purposes
 const fileType = computed(() => {
-  if (!file.value) return null
+  if (!file.value) return 'not set'
 
   if (file.value.type.includes('image')) {
     return 'image'
@@ -139,7 +139,7 @@ const clearFile = () => {
   if (filePreview.value) {
     URL.revokeObjectURL(filePreview.value)
   }
-  
+
   file.value = null
   filePreview.value = ''
 }
@@ -151,12 +151,15 @@ const clearFile = () => {
 }
 
 .no-scrollbar {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer and Edge */
 }
 
 .no-scrollbar::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
+  /* Safari and Chrome */
 }
 
 .chat {
@@ -168,12 +171,12 @@ const clearFile = () => {
 }
 
 .mask-opacity {
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0));
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: left top;
 
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: left top;
