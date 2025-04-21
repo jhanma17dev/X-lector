@@ -26,8 +26,8 @@
   --color-secondary: #fbbf24; /* Amarillo suave - advertencias */
   --color-secondary-content: oklch(20% 0.05 80); /* Texto oscuro sobre amarillo */
 
-  --color-accent: #7dc8c2; /* Turquesa suave - acentos */
-  --color-accent-content: oklch(98% 0.01 160);
+  --color-accent: rgb(11, 10, 48); /* Turquesa suave - acentos */
+  --color-accent-content: oklch(98% 0.01 240);
 
   --color-neutral: #9ca3af; /* Gris claro para texto secundario */
   --color-neutral-content: #f9fafb;
