@@ -23,8 +23,8 @@
   --color-primary: rgba(67, 65, 255, 1); /* Azul brillante - botones principales */
   --color-primary-content: oklch(98% 0.01 240); /* Contraste del azul */
 
-  --color-secondary: #fbbf24; /* Amarillo suave - advertencias */
-  --color-secondary-content: oklch(20% 0.05 80); /* Texto oscuro sobre amarillo */
+  --color-secondary: rgb(221, 221, 221); /* Amarillo suave - advertencias */
+  --color-secondary-content: #080f18; /* Texto oscuro sobre amarillo */
 
   --color-accent: rgb(11, 10, 48); /* Turquesa suave - acentos */
   --color-accent-content: oklch(98% 0.01 240);

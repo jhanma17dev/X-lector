@@ -3,8 +3,7 @@
     class="navbar w-full px-8 absolute top-4"
   >
     <div class="flex items-center w-1/4">
-      <img :src="Logo" class="h-8 w-8 rounded-full mr-4" alt="Logo" />
-      <h1 class="text-lg font-bold opacity-95">X-ray</h1>
+      <img :src="Logo" class="h-8 w-auto mr-4" alt="Logo" />
     </div>
 
     <nav class="flex items-center w-2/4 justify-center text-neutral">
@@ -18,7 +17,9 @@
     </nav>
 
     <nav class="flex items-center w-1/4 justify-end">
-      <button class="btn btn-accent rounded-full primary-shadow font-bold">Login</button>
+      <RouterLink to="/dashboard/x-ray">
+        <button class="btn btn-secondary rounded-full primary-shadow font-bold">Login</button>
+      </RouterLink>
     </nav>
   </header>
 </template>

@@ -4,8 +4,7 @@
     class="navbar bg-base-300 shadow-sm w-9/10 rounded-full px-8 mx-auto outline outline-neutral"
   >
     <div class="flex items-center w-1/4">
-      <img :src="Logo" class="h-8 w-8 rounded-full mr-4" alt="Logo" />
-      <h1 class="text-lg font-bold opacity-95">X-ray</h1>
+      <img :src="Logo" class="h-7 w-auto mr-4" alt="Logo" />
     </div>
 
     <nav class="flex items-center w-2/4 justify-center">

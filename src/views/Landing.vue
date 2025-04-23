@@ -12,6 +12,10 @@
         <h4 class="text-xl mt-4 font-light text-neutral w-6/10 mx-auto">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.
         </h4>
+        <div class="flex justify-center mt-8">
+          <button class="btn btn-secondary rounded-full primary-shadow font-bold btn-lg">Get Started</button>
+          <button class="btn btn-secondary btn-lg rounded-full ml-4 btn-outline">Learn More</button>
+        </div>
       </div>
     </div>
 
@@ -25,18 +29,19 @@
         </p>
       </div>
 
-      <div class="w-8/10 flex mt-16">
-        <div class="w-1/3 flex flex-col items-center justify-center px-8" v-for="i in 3" :key="i">
+      <!-- Team Section -->
+      <div class="w-8/10 flex mt-16 mb-16">
+        <div class="w-1/3 flex flex-col items-center justify-center px-8" v-for="member in teamMembers" :key="member.id">
           <img
-            src="https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg"
+            :src="member.image"
             class="w-full rounded-xl primary-shadow object-cover aspect-square"
-            alt=""
+            :alt="member.name"
           />
 
           <div class="flex mt-4 justify-between items-center w-full">
-            <span class="text-3xl font-bold">Jhan Bolivar</span>
+            <span class="text-3xl font-bold">{{ member.name }}</span>
             <div class="text-lg">
-              <button class="btn btn-circle btn-ghost">
+              <a :href="member.github" target="_blank" class="btn btn-circle btn-ghost">
                 <svg width="32px" height="32px" viewBox="-2.4 -2.4 28.80 28.80" fill="none">
                   <g>
                     <path
@@ -55,9 +60,9 @@
                     ></path>
                   </g>
                 </svg>
-              </button>
+              </a>
 
-              <button class="btn btn-circle btn-ghost p-2">
+              <a :href="member.linkedin" target="_blank" class="btn btn-circle btn-ghost p-2">
                 <svg width="32px" height="32px" viewBox="0 0 24 24">
                   <g>
                     <path
@@ -80,15 +85,14 @@
                     ></path>
                   </g>
                 </svg>
-              </button>
+              </a>
             </div>
           </div>
 
           <span class="mt-2 text-neutral text-xl w-full">
-            Frontend Develop | UI/UX Design
+            {{ member.role }}
           </span>
         </div>
-
       </div>
     </div>
   </div>
@@ -96,12 +100,39 @@
 
 <script setup lang="ts">
 import LandingLayout from '@/layouts/LandingLayout.vue'
+
+// Team members data
+const teamMembers = [
+  {
+    id: 1,
+    name: 'Jhan Bolivar',
+    role: 'Frontend Developer | UI/UX Design',
+    image: 'https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg',
+    github: 'https://github.com/jhanbolivar',
+    linkedin: 'https://linkedin.com/in/jhanbolivar'
+  },
+  {
+    id: 2,
+    name: 'Sebastian',
+    role: 'Backend Developer | DevOps',
+    image: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+    github: 'https://github.com/sebastianrodriguez',
+    linkedin: 'https://linkedin.com/in/sebastianrodriguez'
+  },
+  {
+    id: 3,
+    name: 'Luna',
+    role: 'Full Stack Developer | Data Analyst',
+    image: 'https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg',
+    github: 'https://github.com/lunamartinez',
+    linkedin: 'https://linkedin.com/in/lunamartinez'
+  }
+]
 </script>
 
 <style>
 body,
 html {
-  padding-top: 0 !important;
   margin: 0;
   overflow: auto;
   scrollbar-width: none !important; /* Firefox */
