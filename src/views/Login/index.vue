@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LoginForm from './LoginForm.vue';
 import LoginPanel from './LoginPanel.vue';
 </script>

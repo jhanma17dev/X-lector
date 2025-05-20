@@ -221,11 +221,16 @@
   </div>
 </template>
 
-<script>
-import { supabase } from '@/lib/supabaseClient'
+<script lang="ts">
+import { useAuthStore } from '@/stores/auth.ts'
 
 export default {
   name: 'AuthComponent',
+  
+  setup() {
+    const authStore = useAuthStore()
+    return { authStore }
+  },
   
   data() {
     return {
@@ -319,39 +324,34 @@ export default {
 
       try {
         if (this.isSignUp) {
-          // Sign up logic
-          const { data, error } = await supabase.auth.signUp({
-            email: this.formData.email,
-            password: this.formData.password,
-            options: {
-              data: {
-                name: this.formData.name,
-              }
-            }
-          })
+          // Sign up using auth store
+          const { error } = await this.authStore.signUp(
+            this.formData.email,
+            this.formData.password,
+            this.formData.name
+          )
 
           if (error) {
-            this.errorMessage = error.message
+            this.errorMessage = (error && typeof error === 'object' && 'message' in error) ? (error as any).message : String(error)
           } else {
             this.successMessage = 'Account created successfully! Please check your email to verify your account.'
             this.clearForm()
-            // Optionally switch to login mode after successful signup
+
             setTimeout(() => {
               this.isSignUp = false
             }, 2000)
           }
         } else {
-          // Sign in logic
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email: this.formData.email,
-            password: this.formData.password,
-          })
+          // Sign in using auth store
+          const { error } = await this.authStore.signIn(
+            this.formData.email,
+            this.formData.password
+          )
 
           if (error) {
-            this.errorMessage = error.message
+            this.errorMessage = (error && typeof error === 'object' && 'message' in error) ? (error as any).message : String(error)
           } else {
             this.successMessage = 'Logged in successfully!'
-            // Add your redirect logic here
           }
         }
       } catch (error) {
@@ -368,15 +368,10 @@ export default {
       this.clearMessages()
 
       try {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: window.location.origin
-          }
-        })
+        const { error } = await this.authStore.signInWithGoogle()
 
         if (error) {
-          this.errorMessage = error.message
+          this.errorMessage = (error && typeof error === 'object' && 'message' in error) ? (error as any).message : String(error)
         }
       } catch (error) {
         this.errorMessage = 'Google authentication failed. Please try again.'
