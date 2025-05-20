@@ -17,7 +17,7 @@
     </nav>
 
     <nav class="flex items-center w-1/4 justify-end">
-      <RouterLink to="/dashboard/x-ray">
+      <RouterLink to="/login">
         <button class="btn btn-secondary rounded-full primary-shadow font-bold">Login</button>
       </RouterLink>
     </nav>
