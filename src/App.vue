@@ -6,16 +6,16 @@
 
 <script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router'
-import { computed, watch, ref, onMounted } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 
 const route = useRoute()
-const isRootRoute = ref(false)
+const noPadding = ref(false)
 
 // Función para verificar y actualizar si estamos en la ruta raíz
 const updatePadding = () => {
-  isRootRoute.value = route.path === '/' || route.path === ''
+  noPadding.value = !route.path.includes('/dashboard')
   
-  if (isRootRoute.value) {
+  if (noPadding.value) {
     document.body.style.paddingTop = '0';
   } else {
     document.body.style.paddingTop = '2rem';

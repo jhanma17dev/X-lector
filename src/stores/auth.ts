@@ -70,7 +70,7 @@ export const useAuthStore = defineStore('auth', () => {
       if (error) throw error
 
       // Route to dashboard or home page after successful login
-      router.push('/dashboard')
+      router.push('/dashboard/x-ray')
 
       return { data, error: null }
     } catch (error) {

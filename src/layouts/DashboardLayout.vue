@@ -40,17 +40,27 @@
     </nav>
 
     <nav class="flex items-center w-1/4 justify-end">
-      <button class="btn btn-ghost rounded-full py-6">
-        <div class="avatar mr-2">
-          <div class="w-8 rounded-full">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+      <div class="dropdown dropdown-end">
+        <button class="btn btn-ghost rounded-full py-6">
+          <div class="avatar mr-2">
+            <div class="w-8 rounded-full">
+              <img :src="userProfile?.avatar_url || 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'" />
+            </div>
           </div>
-        </div>
 
-        <span class="text-neutral text-md font-semibold mr-2">Amal Camila</span>
+          <span class="text-neutral text-md font-semibold mr-2">
+            {{ userProfile?.name || userProfile?.email || 'User' }}
+          </span>
 
-        <span class="material-symbols-outlined text-neutral"> keyboard_arrow_down </span>
-      </button>
+          <span class="material-symbols-outlined text-neutral"> keyboard_arrow_down </span>
+        </button>
+        
+        <!-- Dropdown menu -->
+        <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
+          <li><a @click="viewProfile">Profile</a></li>
+          <li><a @click="handleLogout">Logout</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
 
@@ -63,8 +73,26 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 import Logo from '@/assets/logo.png'
+import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+// Get user profile information from the auth store
+const userProfile = computed(() => authStore.getUserProfile)
+
+// Handle user logout
+const handleLogout = async () => {
+  await authStore.signOut()
+}
+
+// View profile page
+const viewProfile = () => {
+  router.push('/dashboard/profile')
+}
 </script>
 
 <style scoped></style>

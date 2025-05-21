@@ -4,9 +4,9 @@
   >
     <span>Add an X-Ray file</span>
     <span class="mt-1">Allowed Formats: DICOM, PDF, PNG, JPEG</span>
-    <button class="btn btn-primary rounded-full mt-4 text-sm" @click="handleFileUpload">
+    <button class="btn btn-primary rounded-full mt-4 text-sm" @click="handleFileUpload" :disabled="isUploading">
       <span class="material-symbols-outlined"> add </span>
-      Add File
+      {{ isUploading ? 'Uploading...' : 'Add File' }}
       <input
         id="file-upload"
         type="file"
@@ -15,33 +15,139 @@
         @change="onFileChange"
       />
     </button>
+    <div v-if="uploadError" class="text-error mt-2">
+      {{ uploadError }}
+    </div>
+    <div v-if="apiResponse" class="mt-4 p-3 bg-success/20 rounded-lg">
+      <h3 class="font-bold">API Response:</h3>
+      <pre class="text-xs overflow-auto max-h-40">{{ apiResponse }}</pre>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineEmits } from 'vue'
+<script lang="ts">
+import { supabase } from '@/lib/supabaseClient'
+import { useAuthStore } from '@/stores/auth'
 
-const emit = defineEmits(['file-selected'])
-
-const handleFileUpload = () => {
-  const fileInput = document.getElementById('file-upload') as HTMLInputElement
-  fileInput.click()
-}
-
-const onFileChange = (event: Event) => {
-  const fileInput = event.target as HTMLInputElement
-  const selectedFile = fileInput.files?.[0]
+export default {
+  name: 'XRayImageUpload',
   
-  if (selectedFile) {
-    const filePreview = URL.createObjectURL(selectedFile)
-    console.log('Selected file:', selectedFile)
+  emits: ['file-selected'],
+  
+  setup() {
+    // Initialize store in setup function
+    const authStore = useAuthStore()
     
-    // Emit event to parent component
-    emit('file-selected', {
-      file: selectedFile,
-      preview: filePreview,
-      type: selectedFile.type
-    })
+    // Return the store to make it available in the component instance
+    return { authStore }
+  },
+  
+  data() {
+    return {
+      isUploading: false,
+      uploadError: '',
+      apiResponse: null
+    }
+  },
+  
+  methods: {
+    handleFileUpload() {
+      const fileInput = document.getElementById('file-upload') as HTMLInputElement
+      fileInput.click()
+    },
+    
+    async onFileChange(event: Event) {
+      const fileInput = event.target as HTMLInputElement
+      const selectedFile = fileInput.files?.[0]
+      
+      if (!selectedFile) return
+      
+      this.isUploading = true
+      this.uploadError = ''
+      this.apiResponse = null
+      
+      try {
+        // Create local preview for immediate feedback
+        const filePreview = URL.createObjectURL(selectedFile)
+        
+        // Get the current user ID
+        const userId = this.authStore.getUserProfile?.id
+        
+        if (!userId) {
+          throw new Error('User not authenticated')
+        }
+        
+        // Generate a unique file path in the user's folder
+        const timestamp = new Date().getTime()
+        const filePath = `${userId}/${timestamp}-${selectedFile.name}`
+        
+        // Upload file to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from('radiographys') 
+          .upload(filePath, selectedFile, {
+            cacheControl: '3600',
+            upsert: false
+          })
+          
+        if (error) throw error
+        
+        // Get the public URL of the uploaded file
+        const { data: urlData } = supabase.storage
+          .from('radiographys') 
+          .getPublicUrl(filePath)
+          
+        const publicUrl = urlData.publicUrl
+        
+        // Send the file to your API for prediction
+        await this.sendToAPI(selectedFile)
+                
+        // Emit event to parent component with file data and Supabase URL
+        this.$emit('file-selected', {
+          file: selectedFile,
+          preview: filePreview,
+          type: selectedFile.type,
+          storagePath: filePath,
+          publicUrl: publicUrl
+        })
+      } catch (error) {
+        console.error('Error uploading file:', error)
+        this.uploadError = error instanceof Error ? error.message : 'Failed to upload file'
+      } finally {
+        this.isUploading = false
+      }
+    },
+    
+    async sendToAPI(file: File) {
+      try {
+        // Create a FormData object to send the file
+        const formData = new FormData()
+        formData.append('image', file)
+        
+        // Make the API request
+        const response = await fetch('http://localhost:4000/api/image/predict', {
+          method: 'POST',
+          body: formData
+        })
+        
+        if (!response.ok) {
+          throw new Error(`API responded with status: ${response.status}`)
+        }
+        
+        // Parse and store the API response
+        const data = await response.json()
+        this.apiResponse = data
+        
+        return data
+      } catch (apiError) {
+        console.error('API request failed:', apiError)
+        if (apiError instanceof Error) {
+          this.uploadError = `API Error: ${apiError.message}`
+        } else {
+          this.uploadError = 'API Error: An unknown error occurred'
+        }
+        throw apiError
+      }
+    }
   }
 }
 </script>
