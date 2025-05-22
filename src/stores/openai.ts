@@ -5,14 +5,25 @@ interface Message {
   content: string
 }
 
+interface Conclusion {
+  text: string
+}
+
+interface Suggestion {
+  icon: string
+  importance: 'red' | 'yellow'
+  text: string
+  title: string
+}
+
 interface OpenAIState {
   messages: Message[]
   isLoading: boolean
   error: string | null
   threadId: string
   assistantId: string
-  conclusions: string[]
-  suggestions: string[]
+  conclusions: Conclusion[]
+  suggestions: Suggestion[]
 }
 
 export const useOpenAIStore = defineStore('openai', {
@@ -31,6 +42,8 @@ export const useOpenAIStore = defineStore('openai', {
       try {
         this.isLoading = true
         this.error = null
+
+        this.resetState()
 
         const response = await fetch('https://api.openai.com/v1/threads', {
           method: 'POST',
@@ -116,10 +129,9 @@ export const useOpenAIStore = defineStore('openai', {
           throw new Error(`API error: ${response.status} ${response.statusText}`)
         }
 
-        // get messages after creating a run with a delay
-        setTimeout(async () => {
-          await this.getMessages()
-        }, 5000)
+        // Wait for run to complete before getting messages
+        await new Promise((resolve) => setTimeout(resolve, 10000))
+        await this.getMessages()
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Error al comunicarse con OpenAI'
         console.error('Error en la comunicación con OpenAI:', error)
@@ -166,8 +178,11 @@ export const useOpenAIStore = defineStore('openai', {
 
       //retrieves conclusions and suggestions from the 2nd message
       const secondMessage = formatedMessages[1]
+
       if (secondMessage && secondMessage.role === 'assistant') {
         let content = secondMessage.content[0].text.value
+
+        console.log('Second message:', content)
 
         // parses the content as JSON
         content = JSON.parse(content)
@@ -179,18 +194,30 @@ export const useOpenAIStore = defineStore('openai', {
       // removes the first 2 messages
       for (let i = 2; i < formatedMessages.length; i++) {
         const message = formatedMessages[i]
-        if (message.role === 'assistant') {
+
+        if (message.role == 'assistant') {
+          console.log('Assistant message:', message)
+          this.messages.push({
+            role: message.role,
+            content: JSON.parse(message.content[0].text.value).response,
+          })
+        } else {
+          console.log('User message:', message)
           this.messages.push({
             role: message.role,
             content: message.content[0].text.value,
           })
-        } else {
-          this.messages.push({
-            role: message.role,
-            content: message.content,
-          })
         }
       }
+    },
+
+    resetState() {
+      this.messages = []
+      this.threadId = ''
+      this.isLoading = false
+      this.error = null
+      this.conclusions = []
+      this.suggestions = []
     },
   },
 })
