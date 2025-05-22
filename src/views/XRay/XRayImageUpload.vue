@@ -124,9 +124,9 @@ export default {
         formData.append('image', file)
         
         // Make the API request
-        const response = await fetch('http://localhost:4000/api/image/predict', {
+        const response = await fetch('http://localhost:5000/predict', {
           method: 'POST',
-          body: formData
+          body: formData,
         })
         
         if (!response.ok) {
