@@ -28,6 +28,7 @@
 <script lang="ts">
 import { supabase } from '@/lib/supabaseClient'
 import { useAuthStore } from '@/stores/auth'
+import { useOpenAIStore } from '@/stores/openai'
 
 export default {
   name: 'XRayImageUpload',
@@ -37,9 +38,10 @@ export default {
   setup() {
     // Initialize store in setup function
     const authStore = useAuthStore()
+    const openAIStore = useOpenAIStore()
     
     // Return the store to make it available in the component instance
-    return { authStore }
+    return { authStore, openAIStore }
   },
   
   data() {
@@ -99,15 +101,16 @@ export default {
         const publicUrl = urlData.publicUrl
         
         // Send the file to your API for prediction
-        await this.sendToAPI(selectedFile)
-                
-        // Emit event to parent component with file data and Supabase URL
+        const response = await this.sendToAPI(selectedFile)
+
+        let has_arthritis = response.prediction == 'positive' ? false : true
+        
+        await this.initializeChat(has_arthritis ? 'positive' : 'negative')        
+
         this.$emit('file-selected', {
           file: selectedFile,
           preview: filePreview,
-          type: selectedFile.type,
-          storagePath: filePath,
-          publicUrl: publicUrl
+          type: selectedFile.type
         })
       } catch (error) {
         console.error('Error uploading file:', error)
@@ -135,7 +138,6 @@ export default {
         
         // Parse and store the API response
         const data = await response.json()
-        this.apiResponse = data
         
         return data
       } catch (apiError) {
@@ -147,7 +149,17 @@ export default {
         }
         throw apiError
       }
-    }
+    },
+
+    async initializeChat(diagnosis: string) {
+      try {
+        await this.openAIStore.createChat(
+          'Has arthritis: ' + diagnosis
+        )
+      } catch (error) {
+        console.error('Failed to initialize chat:', error)
+      }
+    },
   }
 }
 </script>
