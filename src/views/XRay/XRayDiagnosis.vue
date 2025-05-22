@@ -19,21 +19,6 @@
       </ul>
     </DiagnosisCard>
 
-    <!-- Chat Messages Section -->
-    <DiagnosisCard v-if="messages && messages.data && messages.data.length > 0" title="Chat with AI Assistant">
-      <div v-for="(message, index) in messages.data" :key="index" class="mb-4">
-        <div :class="[
-          'p-3 rounded-lg max-w-[80%]', 
-          message.role === 'user' ? 'ml-auto bg-primary/20' : 'bg-base-200'
-        ]">
-          <p class="text-sm">{{ message.content[0].text.value }}</p>
-          <p class="text-xs text-right mt-1 text-neutral-content">
-            {{ new Date(message.created_at * 1000).toLocaleTimeString() }}
-          </p>
-        </div>
-      </div>
-    </DiagnosisCard>
-
     <!-- Suggestions Section -->
     <DiagnosisCard title="Suggestions">
       <!-- First suggestion -->
@@ -88,6 +73,18 @@
         </div>
       </div>
     </DiagnosisCard>
+
+    <!-- Chat Messages Section -->
+    <DiagnosisCard v-if="messages && messages && messages.length > 0" title="Chat with AI Assistant">
+      <div v-for="(message, index) in messages" :key="index" class="mb-4">
+        <div :class="[
+          'p-3 rounded-lg max-w-[80%]', 
+          message.role === 'user' ? 'ml-auto bg-primary/20' : 'bg-base-200'
+        ]">
+          <p class="text-sm">{{ message.content }}</p>
+        </div>
+      </div>
+    </DiagnosisCard>
   </div>
 
   <!-- Chat input at the bottom -->
@@ -115,13 +112,13 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
 import DiagnosisCard from '@/components/XRay/DiagnosisCard.vue'
 import { useOpenAIStore } from '@/stores/openai'
 
 export default {
   name: 'XRayDiagnosis',
-
+  
   setup() {
     // Initialize store in setup function
     const openAIStore = useOpenAIStore()
@@ -134,25 +131,42 @@ export default {
     DiagnosisCard
   },
   
-  props: {
-    diagnosisData: {
-      type: Object,
-      default: () => ({
-        conclusions: [],
-        suggestions: []
-      })
-    }
-  },
-  
   data() {
     return {
       userInput: '',
-      openAIStore: null
+      conclusions: null,
+      suggestions: null
+    }
+  },
+  
+  computed: {
+    messages() {
+      return this.openAIStore.messages
+    },
+    isLoading() {
+      return this.openAIStore.isLoading
+    },
+    error() {
+      return this.openAIStore.error
     }
   },
   
   methods: {
-  }
+    async sendUserMessage() {
+      if (!this.userInput.trim()) return;
+      
+      // If there's no active thread yet, create a new chat
+      if (!this.openAIStore.threadId) {
+        await this.openAIStore.createChat(this.userInput);
+      } else {
+        // Otherwise, send message to existing thread
+        await this.openAIStore.sendMessage(this.userInput);
+      }
+      
+      // Clear input after sending
+      this.userInput = '';
+    }
+  },
 }
 </script>
 

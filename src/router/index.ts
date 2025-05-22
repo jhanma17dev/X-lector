@@ -19,6 +19,11 @@ const router = createRouter({
           component: () => import('../views/XRay/index.vue'),
         },
         {
+          path: 'diagnosis/:id',
+          name: 'Diagnosis',
+          component: () => import('../views/XRay/index.vue'),
+        },
+        {
           path: 'history',
           name: 'History',
           component: () => import('../views/History.vue'),

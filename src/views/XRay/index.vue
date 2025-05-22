@@ -1,10 +1,10 @@
 <template>
   <span class="text-2xl font-semibold pl-4">X-Ray Diagnosis</span>
 
-  <!-- Show file upload component when no file is selected -->
-  <ImageUpload v-if="!file" @file-selected="onFileSelected" />
+  <!-- Show file upload component when not in Diagnosis view and no file is selected -->
+  <ImageUpload v-if="!isInDiagnosisView" @file-selected="onFileSelected" />
 
-  <!-- Show file preview and analysis when file is selected -->
+  <!-- Show file preview when in Diagnosis view or when file is selected -->
   <div v-else class="w-full full-height mt-6 flex">
     <div class="w-4/10 min-w-4/10 mr-8 rounded-2xl sticky top-0">
       <ImagePreview 
@@ -23,13 +23,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import ImageUpload from './XRayImageUpload.vue'
 import ImagePreview from './XRayImagePreview.vue'
 import Diagnosis from './XRayDiagnosis.vue'
 
+const router = useRouter()
+const route = useRoute()
 const file = ref<File | null>(null)
 const filePreview = ref<string>('')
+
+// Check if we're in the Diagnosis view
+const isInDiagnosisView = computed(() => {
+  return route.name === 'Diagnosis'
+})
 
 // Determine file type for display purposes
 const fileType = computed(() => {
@@ -44,10 +52,16 @@ const fileType = computed(() => {
   }
 })
 
-const onFileSelected = (data: { file: File, preview: string, type: string }) => {
+const onFileSelected = (data: { file: File, preview: string, type: string, threadId: string }) => {
   file.value = data.file
   filePreview.value = data.preview
-  console.log('File received in parent:', file.value)
+
+  router.push({
+    name: 'Diagnosis',
+    params: {
+      id: data.threadId,
+    }
+  })
 }
 
 const clearFile = () => {
@@ -57,6 +71,11 @@ const clearFile = () => {
 
   file.value = null
   filePreview.value = ''
+  
+  // Navigate away from Diagnosis view if we're in it
+  if (isInDiagnosisView.value) {
+    router.push({ name: 'XRay' }) // Assuming 'XRay' is the parent route name
+  }
 }
 </script>
 

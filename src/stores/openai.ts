@@ -11,6 +11,8 @@ interface OpenAIState {
   error: string | null
   threadId: string
   assistantId: string
+  conclusions: string[]
+  suggestions: string[]
 }
 
 export const useOpenAIStore = defineStore('openai', {
@@ -19,6 +21,8 @@ export const useOpenAIStore = defineStore('openai', {
     threadId: '',
     isLoading: false,
     error: null,
+    conclusions: [],
+    suggestions: [],
     assistantId: 'asst_YUxngLyVxw0by39AEJzKjsCf',
   }),
 
@@ -46,6 +50,8 @@ export const useOpenAIStore = defineStore('openai', {
         this.threadId = threadId
 
         await this.sendMessage(content)
+
+        return threadId
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Error al comunicarse con OpenAI'
         console.error('Error en la comunicación con OpenAI:', error)
@@ -143,13 +149,47 @@ export const useOpenAIStore = defineStore('openai', {
           throw new Error(`API error: ${response.status} ${response.statusText}`)
         }
 
-        const data = await response.json()
-        this.messages = data
+        const { data } = await response.json()
+
+        this.formatMessagesResponse(data)
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Error al comunicarse con OpenAI'
         console.error('Error en la comunicación con OpenAI:', error)
       } finally {
         this.isLoading = false
+      }
+    },
+
+    formatMessagesResponse(messages: any) {
+      //reverses the messages array
+      let formatedMessages = messages.reverse()
+
+      //retrieves conclusions and suggestions from the 2nd message
+      const secondMessage = formatedMessages[1]
+      if (secondMessage && secondMessage.role === 'assistant') {
+        let content = secondMessage.content[0].text.value
+
+        // parses the content as JSON
+        content = JSON.parse(content)
+
+        this.conclusions = content.conclusions
+        this.suggestions = content.recommendations
+      }
+
+      // removes the first 2 messages
+      for (let i = 2; i < formatedMessages.length; i++) {
+        const message = formatedMessages[i]
+        if (message.role === 'assistant') {
+          this.messages.push({
+            role: message.role,
+            content: message.content[0].text.value,
+          })
+        } else {
+          this.messages.push({
+            role: message.role,
+            content: message.content,
+          })
+        }
       }
     },
   },
