@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { supabase } from '@/lib/supabaseClient'
+import { useAuthStore } from '@/stores/auth' // Import the auth store
 
 interface Message {
   role: 'user' | 'assistant' | 'system'
@@ -130,7 +132,7 @@ export const useOpenAIStore = defineStore('openai', {
         }
 
         // Wait for run to complete before getting messages
-        await new Promise((resolve) => setTimeout(resolve, 10000))
+        await new Promise((resolve) => setTimeout(resolve, 12000))
         await this.getMessages()
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Error al comunicarse con OpenAI'
@@ -196,7 +198,7 @@ export const useOpenAIStore = defineStore('openai', {
         const message = formatedMessages[i]
 
         if (message.role == 'assistant') {
-          console.log('Assistant message:', message)
+          console.log('Assistant message:', JSON.parse(message.content[0].text.value))
           this.messages.push({
             role: message.role,
             content: JSON.parse(message.content[0].text.value).response,
@@ -208,6 +210,60 @@ export const useOpenAIStore = defineStore('openai', {
             content: message.content[0].text.value,
           })
         }
+      }
+    },
+
+    async saveDiagnosis(radiography: string, hasArtritis: boolean) {
+      try {
+        this.isLoading = true
+        this.error = null
+
+        const { data, error } = await supabase.from('diagnosis').insert([
+          {
+            user_id: useAuthStore().getUserProfile?.id,
+            thread_id: this.threadId,
+            radiography: radiography,
+            has_arthritis: hasArtritis,
+          },
+        ])
+
+        if (error) {
+          throw new Error(`Database error: ${error.message}`)
+        }
+
+        console.log('Diagnosis saved:', data)
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : 'Error al guardar el diagnóstico'
+        console.error('Error al guardar el diagnóstico:', error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async loadDiagnosis(threadId: string) {
+      try {
+        this.isLoading = true
+        this.error = null
+
+        this.resetState()
+        this.threadId = threadId
+
+        const { data, error } = await supabase
+          .from('diagnosis')
+          .select('*')
+          .eq('user_id', useAuthStore().getUserProfile?.id)
+          .eq('thread_id', threadId)
+
+        if (error) {
+          throw new Error(`Database error: ${error.message}`)
+        }
+
+        return data[0]
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : 'Error al obtener el diagnóstico'
+        console.error('Error al obtener el diagnóstico:', error)
+      } finally {
+        this.isLoading = false
       }
     },
 

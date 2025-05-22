@@ -105,7 +105,7 @@ export default {
 
         let has_arthritis = response.prediction == 'positive' ? false : true
         
-        await this.initializeChat(has_arthritis ? 'positive' : 'negative', filePreview, selectedFile)
+        await this.initializeChat(has_arthritis ? 'positive' : 'negative', filePreview, selectedFile, publicUrl)
       } catch (error) {
         console.error('Error uploading file:', error)
         this.uploadError = error instanceof Error ? error.message : 'Failed to upload file'
@@ -145,11 +145,18 @@ export default {
       }
     },
 
-    async initializeChat(diagnosis: string, filePreview: string, selectedFile: File) {
+    async initializeChat(diagnosis: string, filePreview: string, selectedFile: File, radiography: string) {
       try {
         const threadId = await this.openAIStore.createChat(
           'Has arthritis: ' + diagnosis
-        )        
+        )
+
+        const hasArtritis = diagnosis == 'positive' ? true : false
+
+        await this.openAIStore.saveDiagnosis(
+          radiography,
+          hasArtritis,
+        )
 
         this.$emit('file-selected', {
           file: selectedFile,
