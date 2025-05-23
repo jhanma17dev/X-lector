@@ -122,6 +122,9 @@
 import LandingLayout from '@/layouts/LandingLayout.vue'
 import EDA from '@/components/EDA.vue'
 import { RouterLink } from 'vue-router'
+import JhanImage from '@/assets/jhan.jpg'
+import SebastianImage from '@/assets/sebastian.jpg'
+import LunaImage from '@/assets/luna.jpg'
 
 // Datos del equipo
 const teamMembers = [
@@ -129,23 +132,23 @@ const teamMembers = [
     id: 1,
     name: 'Jhan Bolivar',
     role: 'Desarrollador Frontend | Diseño UI/UX',
-    image: 'https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg',
+    image: JhanImage,
     github: 'https://github.com/jhanbolivar',
     linkedin: 'https://linkedin.com/in/jhanbolivar'
   },
   {
     id: 2,
     name: 'Sebastian',
-    role: 'Desarrollador Backend | DevOps',
-    image: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+    role: 'Analista de Datos',
+    image: SebastianImage,
     github: 'https://github.com/sebastianrodriguez',
     linkedin: 'https://linkedin.com/in/sebastianrodriguez'
   },
   {
     id: 3,
     name: 'Luna',
-    role: 'Desarrolladora Full Stack | Analista de Datos',
-    image: 'https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg',
+    role: 'Analista de Datos',
+    image: LunaImage,
     github: 'https://github.com/lunamartinez',
     linkedin: 'https://linkedin.com/in/lunamartinez'
   }
