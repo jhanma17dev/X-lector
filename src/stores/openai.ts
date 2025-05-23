@@ -132,7 +132,7 @@ export const useOpenAIStore = defineStore('openai', {
         }
 
         // Wait for run to complete before getting messages
-        await new Promise((resolve) => setTimeout(resolve, 12000))
+        await new Promise((resolve) => setTimeout(resolve, 17000))
         await this.getMessages()
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Error al comunicarse con OpenAI'
