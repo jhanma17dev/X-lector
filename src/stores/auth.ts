@@ -97,11 +97,16 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Sign out
   async function signOut() {
+    console.log('Signing out...')
     try {
       const { error } = await supabase.auth.signOut()
+
       if (error) throw error
 
-      // User will be set to null by the auth state change listener
+      // Clear user state
+      user.value = null
+      router.push('/login')
+
       return { error: null }
     } catch (error) {
       return { error }

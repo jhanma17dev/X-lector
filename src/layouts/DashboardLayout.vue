@@ -57,7 +57,7 @@
         
         <!-- Dropdown menu -->
         <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
-          <li><a @click="handleLogout">Cerrar Sesión</a></li>
+          <li><button @click="handleLogout()">Cerrar Sesión</button></li>
         </ul>
       </div>
     </nav>
@@ -85,12 +85,18 @@ const userProfile = computed(() => authStore.getUserProfile)
 
 // Manejar el cierre de sesión del usuario
 const handleLogout = async () => {
-  await authStore.signOut()
-}
+  try {
+    const { error } = await authStore.signOut()
 
-// Ver página de perfil
-const viewProfile = () => {
-  router.push('/dashboard/profile')
+    if (error) {
+      console.error('Error al cerrar sesión:', error)
+    } else {
+      // Redirigir al usuario a la página de login
+      router.push('/login')
+    }
+  } catch (e) {
+    console.error('Error inesperado durante el cierre de sesión:', e)
+  }
 }
 </script>
 
