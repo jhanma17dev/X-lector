@@ -95,11 +95,28 @@
         </div>
       </div>
     </div>
+
+    <!-- EDA Section -->
+     <EDA class="w-full h-full flex flex-col items-center justify-center" />
+
+    <!-- Footer Section -->
+    <footer class="w-full flex flex-col justify-center items-center py-6 bg-base-200">
+      <div class="text-center">
+        <p class="text-base text-neutral font-medium mb-2">Final Project by:</p>
+        <div class="flex justify-center space-x-4 mb-3">
+          <span v-for="member in teamMembers" :key="member.id" class="text-sm text-neutral">
+            {{ member.name }}
+          </span>
+        </div>
+        <p class="text-xs text-neutral mt-2">© 2025 - All rights reserved</p>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
 import LandingLayout from '@/layouts/LandingLayout.vue'
+import EDA from '@/components/EDA.vue'
 
 // Team members data
 const teamMembers = [
