@@ -4,7 +4,7 @@
     <div class="w-full max-w-md space-y-8">
       <div class="text-center">
         <h1 class="text-4xl font-bold text-white mb-10">
-          {{ isSignUp ? 'Sign up' : 'Log in' }}
+          {{ isSignUp ? 'Registro' : 'Iniciar Sesión' }}
         </h1>
       </div>
 
@@ -12,12 +12,12 @@
         <!-- Name field - only show for sign up -->
         <div v-if="isSignUp" class="form-control">
           <label class="label">
-            <span class="label-text text-white">Full Name</span>
+            <span class="label-text text-white">Nombre Completo</span>
           </label>
           <input
             v-model="formData.name"
             type="text"
-            placeholder="Enter your full name"
+            placeholder="Ingrese su nombre completo"
             class="input input-bordered w-full bg-black text-white border-gray-700 focus:border-blue-500"
             required
           />
@@ -25,12 +25,12 @@
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-white">Email address</span>
+            <span class="label-text text-white">Correo electrónico</span>
           </label>
           <input
             v-model="formData.email"
             type="email"
-            placeholder="Enter your email"
+            placeholder="Ingrese su correo electrónico"
             class="input input-bordered w-full bg-black text-white border-gray-700 focus:border-blue-500"
             required
           />
@@ -38,13 +38,13 @@
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-white">Password</span>
+            <span class="label-text text-white">Contraseña</span>
           </label>
           <div class="relative">
             <input
               v-model="formData.password"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="Enter your password"
+              placeholder="Ingrese su contraseña"
               class="input input-bordered w-full bg-black text-white border-gray-700 focus:border-blue-500 pr-10"
               required
             />
@@ -94,13 +94,13 @@
         <!-- Confirm Password field - only show for sign up -->
         <div v-if="isSignUp" class="form-control">
           <label class="label">
-            <span class="label-text text-white">Confirm Password</span>
+            <span class="label-text text-white">Confirmar Contraseña</span>
           </label>
           <div class="relative">
             <input
               v-model="formData.confirmPassword"
               :type="showConfirmPassword ? 'text' : 'password'"
-              placeholder="Confirm your password"
+              placeholder="Confirme su contraseña"
               class="input input-bordered w-full bg-black text-white border-gray-700 focus:border-blue-500 pr-10"
               required
             />
@@ -169,24 +169,24 @@
             :disabled="loading"
             class="btn btn-primary w-full bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700 disabled:loading"
           >
-            {{ loading ? 'Processing...' : (isSignUp ? 'Create Account' : 'Sign In') }}
+            {{ loading ? 'Procesando...' : (isSignUp ? 'Crear Cuenta' : 'Iniciar Sesión') }}
           </button>
         </div>
       </form>
 
       <div class="text-center">
         <p class="text-sm text-gray-400">
-          {{ isSignUp ? 'Already have an account?' : "Don't have an account?" }}
+          {{ isSignUp ? '¿Ya tienes una cuenta?' : "¿No tienes una cuenta?" }}
           <button
             @click="toggleMode"
             class="link link-primary text-blue-600 hover:text-blue-500 ml-1"
           >
-            {{ isSignUp ? 'Sign in' : 'Sign up' }}
+            {{ isSignUp ? 'Iniciar sesión' : 'Registrarse' }}
           </button>
         </p>
       </div>
 
-      <div class="divider text-gray-400">Or</div>
+      <div class="divider text-gray-400">O</div>
 
       <div>
         <button
@@ -214,7 +214,7 @@
             />
             <path d="M1 1h22v22H1z" fill="none" />
           </svg>
-          {{ isSignUp ? 'Sign up with Google' : 'Log in with Google' }}
+          {{ isSignUp ? 'Registrarse con Google' : 'Iniciar sesión con Google' }}
         </button>
       </div>
     </div>
@@ -297,17 +297,17 @@ export default {
       
       if (this.isSignUp) {
         if (!this.formData.name.trim()) {
-          this.errorMessage = 'Full name is required'
+          this.errorMessage = 'El nombre completo es obligatorio'
           return false
         }
         
         if (this.formData.password !== this.formData.confirmPassword) {
-          this.errorMessage = 'Passwords do not match'
+          this.errorMessage = 'Las contraseñas no coinciden'
           return false
         }
         
         if (this.formData.password.length < 6) {
-          this.errorMessage = 'Password must be at least 6 characters long'
+          this.errorMessage = 'La contraseña debe tener al menos 6 caracteres'
           return false
         }
       }
@@ -334,7 +334,7 @@ export default {
           if (error) {
             this.errorMessage = (error && typeof error === 'object' && 'message' in error) ? (error as any).message : String(error)
           } else {
-            this.successMessage = 'Account created successfully! Please check your email to verify your account.'
+            this.successMessage = '¡Cuenta creada exitosamente! Por favor, verifica tu correo electrónico para activar tu cuenta.'
             this.clearForm()
 
             setTimeout(() => {
@@ -351,12 +351,12 @@ export default {
           if (error) {
             this.errorMessage = (error && typeof error === 'object' && 'message' in error) ? (error as any).message : String(error)
           } else {
-            this.successMessage = 'Logged in successfully!'
+            this.successMessage = '¡Inicio de sesión exitoso!'
           }
         }
       } catch (error) {
-        this.errorMessage = 'An unexpected error occurred. Please try again.'
-        console.error('Auth error:', error)
+        this.errorMessage = 'Ha ocurrido un error inesperado. Por favor, intenta de nuevo.'
+        console.error('Error de autenticación:', error)
       } finally {
         this.loading = false
       }
@@ -374,8 +374,8 @@ export default {
           this.errorMessage = (error && typeof error === 'object' && 'message' in error) ? (error as any).message : String(error)
         }
       } catch (error) {
-        this.errorMessage = 'Google authentication failed. Please try again.'
-        console.error('Google auth error:', error)
+        this.errorMessage = 'La autenticación con Google ha fallado. Por favor, intenta de nuevo.'
+        console.error('Error de autenticación con Google:', error)
       } finally {
         this.loading = false
       }

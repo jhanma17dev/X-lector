@@ -1,5 +1,5 @@
 <template>
-  <span class="text-2xl font-semibold pl-4">X-Ray Diagnosis</span>
+  <span class="text-2xl font-semibold pl-4">Diagnostico</span>
 
   <!-- Show file upload component when not in Diagnosis view and no file is selected -->
   <ImageUpload v-if="!isInDiagnosisView" @file-selected="onFileSelected" />

@@ -2,11 +2,11 @@
   <div
     class="w-full full-height outline-dashed outline-primary mt-6 rounded-2xl bg-primary/10 flex flex-col items-center justify-center text-sm font-semibold"
   >
-    <span>Add an X-Ray file</span>
-    <span class="mt-1">Allowed Formats: DICOM, PDF, PNG, JPEG</span>
+    <span>Agregar radiografía de rodilla</span>
+    <span class="mt-1">Formatos permitidos: DICOM, PDF, PNG, JPEG</span>
     <button class="btn btn-primary rounded-full mt-4 text-sm" @click="handleFileUpload" :disabled="isUploading">
       <span class="material-symbols-outlined"> add </span>
-      {{ isUploading ? 'Uploading...' : 'Add File' }}
+      {{ isUploading ? 'Subiendo...' : 'Agregar archivo' }}
       <input
         id="file-upload"
         type="file"
@@ -19,7 +19,7 @@
       {{ uploadError }}
     </div>
     <div v-if="apiResponse" class="mt-4 p-3 bg-success/20 rounded-lg">
-      <h3 class="font-bold">API Response:</h3>
+      <h3 class="font-bold">Respuesta del sistema:</h3>
       <pre class="text-xs overflow-auto max-h-40">{{ apiResponse }}</pre>
     </div>
   </div>
@@ -36,11 +36,11 @@ export default {
   emits: ['file-selected'],
   
   setup() {
-    // Initialize store in setup function
+    // Inicializar store en la función setup
     const authStore = useAuthStore()
     const openAIStore = useOpenAIStore()
     
-    // Return the store to make it available in the component instance
+    // Retornar el store para hacerlo disponible en la instancia del componente
     return { authStore, openAIStore }
   },
   
@@ -69,21 +69,21 @@ export default {
       this.apiResponse = null
       
       try {
-        // Create local preview for immediate feedback
+        // Crear vista previa local para retroalimentación inmediata
         const filePreview = URL.createObjectURL(selectedFile)
         
-        // Get the current user ID
+        // Obtener el ID del usuario actual
         const userId = this.authStore.getUserProfile?.id
         
         if (!userId) {
-          throw new Error('User not authenticated')
+          throw new Error('Usuario no autenticado')
         }
         
-        // Generate a unique file path in the user's folder
+        // Generar una ruta de archivo única en la carpeta del usuario
         const timestamp = new Date().getTime()
         const filePath = `${userId}/${timestamp}-${selectedFile.name}`
         
-        // Upload file to Supabase Storage
+        // Subir archivo al almacenamiento de Supabase
         const { data, error } = await supabase.storage
           .from('radiographys') 
           .upload(filePath, selectedFile, {
@@ -93,22 +93,22 @@ export default {
           
         if (error) throw error
         
-        // Get the public URL of the uploaded file
+        // Obtener la URL pública del archivo subido
         const { data: urlData } = supabase.storage
           .from('radiographys') 
           .getPublicUrl(filePath)
           
         const publicUrl = urlData.publicUrl
         
-        // Send the file to your API for prediction
+        // Enviar el archivo a la API para su análisis
         const response = await this.sendToAPI(selectedFile)
 
         let has_arthritis = response.prediction == 'positive' ? false : true
         
         await this.initializeChat(has_arthritis ? 'positive' : 'negative', filePreview, selectedFile, publicUrl)
       } catch (error) {
-        console.error('Error uploading file:', error)
-        this.uploadError = error instanceof Error ? error.message : 'Failed to upload file'
+        console.error('Error al subir archivo:', error)
+        this.uploadError = error instanceof Error ? error.message : 'Error al subir el archivo'
       } finally {
         this.isUploading = false
       }
@@ -116,30 +116,30 @@ export default {
     
     async sendToAPI(file: File) {
       try {
-        // Create a FormData object to send the file
+        // Crear un objeto FormData para enviar el archivo
         const formData = new FormData()
         formData.append('image', file)
         
-        // Make the API request
+        // Realizar la solicitud a la API
         const response = await fetch('http://localhost:5000/predict', {
           method: 'POST',
           body: formData,
         })
         
         if (!response.ok) {
-          throw new Error(`API responded with status: ${response.status}`)
+          throw new Error(`La API respondió con estado: ${response.status}`)
         }
         
-        // Parse and store the API response
+        // Analizar y almacenar la respuesta de la API
         const data = await response.json()
         
         return data
       } catch (apiError) {
-        console.error('API request failed:', apiError)
+        console.error('La solicitud a la API falló:', apiError)
         if (apiError instanceof Error) {
-          this.uploadError = `API Error: ${apiError.message}`
+          this.uploadError = `Error de API: ${apiError.message}`
         } else {
-          this.uploadError = 'API Error: An unknown error occurred'
+          this.uploadError = 'Error de API: Ocurrió un error desconocido'
         }
         throw apiError
       }
@@ -148,7 +148,7 @@ export default {
     async initializeChat(diagnosis: string, filePreview: string, selectedFile: File, radiography: string) {
       try {
         const threadId = await this.openAIStore.createChat(
-          'Has arthritis: ' + diagnosis
+          'Tiene osteoartritis: ' + diagnosis
         )
 
         const hasArtritis = diagnosis == 'positive' ? true : false
@@ -165,7 +165,7 @@ export default {
           threadId: threadId,
         })
       } catch (error) {
-        console.error('Failed to initialize chat:', error)
+        console.error('Error al inicializar el chat:', error)
       }
     },
   }

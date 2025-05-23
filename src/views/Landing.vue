@@ -8,24 +8,26 @@
       <LandingLayout></LandingLayout>
 
       <div class="flex flex-col w-6/10 text-center">
-        <h1 class="text-8xl capitalize font-regular">Lorem ipsum dolor sit amet.</h1>
+        <h1 class="text-8xl capitalize font-regular">Diagnóstico IA de osteoartritis de rodilla.</h1>
         <h4 class="text-xl mt-4 font-light text-neutral w-6/10 mx-auto">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.
+          Una herramienta innovadora de inteligencia artificial que facilita el diagnóstico temprano y preciso de la osteoartritis de rodilla.
         </h4>
-        <div class="flex justify-center mt-8">
-          <button class="btn btn-secondary rounded-full primary-shadow font-bold btn-lg">Get Started</button>
-          <button class="btn btn-secondary btn-lg rounded-full ml-4 btn-outline">Learn More</button>
+        <div class="flex justify-center mt-8 z-2">
+          <RouterLink to="/login">
+            <button class="btn btn-secondary btn-lg rounded-full primary-shadow font-bold">Comenzar</button>
+          </RouterLink>
+          <button class="btn btn-secondary btn-lg rounded-full ml-4 btn-outline">Más información</button>
         </div>
       </div>
     </div>
 
     <div id="about" class="flex flex-col pt-16 items-center">
       <div class="w-7/10 text-center">
-        <h1 class="text-4xl font-bold mt-8">About Us</h1>
-        <p class="text-lg mt-4 w-6/10 mx-auto">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui sapiente corporis cum
-          repudiandae, voluptate neque sed accusantium unde iusto libero beatae itaque? Earum
-          praesentium ipsa beatae omnis!
+        <h1 class="text-4xl font-bold mt-8">Sobre Nosotros</h1>
+        <p class="text-lg mt-4 w-6/10 mx-auto text-neutral">
+          Somos un equipo multidisciplinario de profesionales dedicados a mejorar la detección temprana de osteoartritis de rodilla. 
+          Nuestro sistema utiliza modelos de inteligencia artifical para analizar imágenes médicas, 
+          proporcionando a los especialistas una herramienta complementaria que agiliza el diagnóstico y mejora la precisión.
         </p>
       </div>
 
@@ -96,19 +98,21 @@
       </div>
     </div>
 
-    <!-- EDA Section -->
-     <EDA class="w-full h-full flex flex-col items-center justify-center" />
+    <div id="eda">
+      <!-- EDA Section -->
+      <EDA class="w-full h-full flex flex-col items-center justify-center" />
+    </div>
 
     <!-- Footer Section -->
     <footer class="w-full flex flex-col justify-center items-center py-6 bg-base-200">
       <div class="text-center">
-        <p class="text-base text-neutral font-medium mb-2">Final Project by:</p>
+        <p class="text-base text-neutral font-medium mb-2">Proyecto Final por:</p>
         <div class="flex justify-center space-x-4 mb-3">
           <span v-for="member in teamMembers" :key="member.id" class="text-sm text-neutral">
             {{ member.name }}
           </span>
         </div>
-        <p class="text-xs text-neutral mt-2">© 2025 - All rights reserved</p>
+        <p class="text-xs text-neutral mt-2">© 2025 - Todos los derechos reservados</p>
       </div>
     </footer>
   </div>
@@ -117,13 +121,14 @@
 <script setup lang="ts">
 import LandingLayout from '@/layouts/LandingLayout.vue'
 import EDA from '@/components/EDA.vue'
+import { RouterLink } from 'vue-router'
 
-// Team members data
+// Datos del equipo
 const teamMembers = [
   {
     id: 1,
     name: 'Jhan Bolivar',
-    role: 'Frontend Developer | UI/UX Design',
+    role: 'Desarrollador Frontend | Diseño UI/UX',
     image: 'https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg',
     github: 'https://github.com/jhanbolivar',
     linkedin: 'https://linkedin.com/in/jhanbolivar'
@@ -131,7 +136,7 @@ const teamMembers = [
   {
     id: 2,
     name: 'Sebastian',
-    role: 'Backend Developer | DevOps',
+    role: 'Desarrollador Backend | DevOps',
     image: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
     github: 'https://github.com/sebastianrodriguez',
     linkedin: 'https://linkedin.com/in/sebastianrodriguez'
@@ -139,7 +144,7 @@ const teamMembers = [
   {
     id: 3,
     name: 'Luna',
-    role: 'Full Stack Developer | Data Analyst',
+    role: 'Desarrolladora Full Stack | Analista de Datos',
     image: 'https://img.freepik.com/free-photo/lifestyle-people-emotions-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-help-listening-coworkers-taking-part-conversation_1258-59335.jpg',
     github: 'https://github.com/lunamartinez',
     linkedin: 'https://linkedin.com/in/lunamartinez'

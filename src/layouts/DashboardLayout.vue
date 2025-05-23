@@ -14,7 +14,7 @@
           :class="isExactActive ? 'bg-neutral text-base-content opacity-90' : 'bg-transparent text-neutral'"
         >
           <span class="material-symbols-outlined"> radiology </span>
-          X-rays
+          Radiografías
         </a>
       </RouterLink>
 
@@ -24,7 +24,7 @@
           :class="isExactActive ? 'bg-neutral text-base-content opacity-90' : 'bg-transparent text-neutral'"
         >
           <span class="material-symbols-outlined"> history </span>
-          History
+          Historial
         </a>
       </RouterLink>
 
@@ -34,7 +34,7 @@
           :class="isExactActive ? 'bg-neutral text-base-content opacity-90' : 'bg-transparent text-neutral'"
         >
           <span class="material-symbols-outlined"> help </span>
-          Help
+          Ayuda
         </a>
       </RouterLink>
     </nav>
@@ -44,12 +44,12 @@
         <button class="btn btn-ghost rounded-full py-6">
           <div class="avatar mr-2">
             <div class="w-8 rounded-full">
-              <img :src="userProfile?.avatar_url || 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'" />
+              <img :src="userProfile?.avatar_url || 'https://asap-invests.com/wp-content/uploads/2021/02/avatar-placeholder.png'" />
             </div>
           </div>
 
           <span class="text-neutral text-md font-semibold mr-2">
-            {{ userProfile?.name || userProfile?.email || 'User' }}
+            {{ userProfile?.name || userProfile?.email || 'Usuario' }}
           </span>
 
           <span class="material-symbols-outlined text-neutral"> keyboard_arrow_down </span>
@@ -57,8 +57,7 @@
         
         <!-- Dropdown menu -->
         <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
-          <li><a @click="viewProfile">Profile</a></li>
-          <li><a @click="handleLogout">Logout</a></li>
+          <li><a @click="handleLogout">Cerrar Sesión</a></li>
         </ul>
       </div>
     </nav>
@@ -81,15 +80,15 @@ import { computed } from 'vue'
 const authStore = useAuthStore()
 const router = useRouter()
 
-// Get user profile information from the auth store
+// Obtener información del perfil de usuario desde el store de autenticación
 const userProfile = computed(() => authStore.getUserProfile)
 
-// Handle user logout
+// Manejar el cierre de sesión del usuario
 const handleLogout = async () => {
   await authStore.signOut()
 }
 
-// View profile page
+// Ver página de perfil
 const viewProfile = () => {
   router.push('/dashboard/profile')
 }

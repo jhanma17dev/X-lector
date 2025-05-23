@@ -5,8 +5,8 @@
     </div>
 
     <div class="z-10 max-w-md">
-      <h2 class="text-3xl font-bold mb-4">Designed for full logistic Support</h2>
-      <p class="text-lg opacity-90">View all the analytics and grow your business from anywhere!</p>
+      <h2 class="text-3xl font-bold mb-4">Diagnóstico avanzado de osteoartritis</h2>
+      <p class="text-lg opacity-90">Utilizamos inteligencia artificial para ayudar a detectar y clasificar la osteoartritis de rodilla de forma rápida y precisa.</p>
     </div>
   </div>
 </template>
@@ -14,3 +14,6 @@
 <script setup lang="ts">
 import Logo from '@/assets/logo.png'
 </script>
+
+<style scoped>
+</style>
