@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import Logo from '/assets/logo.png'
+import Logo from '/assets/Logo.png'
 import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 
