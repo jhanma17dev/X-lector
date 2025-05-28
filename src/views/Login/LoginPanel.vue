@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '@/assets/logo.png'
+import Logo from '/assets/logo.png'
 </script>
 
 <style scoped>

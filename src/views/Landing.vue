@@ -122,9 +122,9 @@
 import LandingLayout from '@/layouts/LandingLayout.vue'
 import EDA from '@/components/EDA.vue'
 import { RouterLink } from 'vue-router'
-import JhanImage from '@/assets/jhan.jpg'
-import SebastianImage from '@/assets/sebastian.jpg'
-import LunaImage from '@/assets/luna.jpg'
+import JhanImage from '/assets/jhan.jpg'
+import SebastianImage from '/assets/sebastian.jpg'
+import LunaImage from '/assets/luna.jpg'
 
 // Datos del equipo
 const teamMembers = [
@@ -174,7 +174,7 @@ html::-webkit-scrollbar {
 }
 
 .landing-hero {
-  background-image: url('@/assets/Hero-1.png'), url('@/assets/Hero-3.png');
+  background-image: url('/assets/Hero-1.png'), url('/assets/Hero-3.png');
   background-size:
     auto 110%,
     auto 100%;

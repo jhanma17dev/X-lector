@@ -231,7 +231,7 @@
             <!-- Sección de visualización de imágenes -->
             <div class="flex flex-col items-center justify-center">
               <img
-                src="@/assets/eda-images/Visualizacion_inicial.png"
+                src="/assets/eda-images/Visualizacion_inicial.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="800"
@@ -349,7 +349,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/tabla-dataframe.png"
+                src="/assets/eda-images/tabla-dataframe.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="500"
@@ -494,7 +494,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/distribucion-de-clases.png"
+                src="/assets/eda-images/distribucion-de-clases.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="800"
@@ -552,7 +552,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/mapa-de-intensidad.png"
+                src="/assets/eda-images/mapa-de-intensidad.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="400"
@@ -615,7 +615,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/histograma-escala-grises.png"
+                src="/assets/eda-images/histograma-escala-grises.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="800"
@@ -713,7 +713,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/filtro-open-cv.png"
+                src="/assets/eda-images/filtro-open-cv.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="800"
@@ -807,7 +807,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/filtro-sobel.png"
+                src="/assets/eda-images/filtro-sobel.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="800"
@@ -958,7 +958,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/mapa-de-intensidad-final.png"
+                src="/assets/eda-images/mapa-de-intensidad-final.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="400"
@@ -1029,14 +1029,14 @@
 
             <div class="flex flex-row items-center justify-evenly mb-8">
               <img
-                src="@/assets/eda-images/matriz-de-confusion.png"
+                src="/assets/eda-images/matriz-de-confusion.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="500"
                 height="600"
               />
               <img
-                src="@/assets/eda-images/matriz-de-confusion-normalizada.png"
+                src="/assets/eda-images/matriz-de-confusion-normalizada.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="500"
@@ -1082,7 +1082,7 @@
 
             <div class="flex flex-col items-center justify-center mb-8">
               <img
-                src="@/assets/eda-images/tabla-metricas.png"
+                src="/assets/eda-images/tabla-metricas.png"
                 alt="Imagen de Osteoartritis"
                 class="rounded-lg mb-2"
                 width="500"

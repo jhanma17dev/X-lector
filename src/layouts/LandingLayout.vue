@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import Logo from '@/assets/logo.png'
+import Logo from '/assets/Logo.png'
 
 const scrollToSection = (sectionId: string) => {
   const section = document.getElementById(sectionId)
