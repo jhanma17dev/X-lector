@@ -71,14 +71,14 @@
               <h3 class="text-lg font-medium mb-2">Origen de los Datos</h3>
               <p class="text-muted-foreground mb-4">
                 Este conjunto de datos fue recopilado en <strong>2018</strong> e incluye
-                <strong>1650 imágenes</strong> en formato <strong>PNG</strong> con un tamaño medio
+                <strong>9786 imágenes</strong> en formato <strong>PNG</strong> con un tamaño medio
                 de 500x500 píxeles, provenientes de distintos pacientes con sospechas de la
                 enfermedad. Chen, Pingjun (2018), “Knee Osteoarthritis Severity Grading Dataset”,
                 Mendeley Data, V1, doi: 10.17632/56rmx5bjcr.1
               </p>
               <h3 class="text-lg font-medium mb-2">Características del Conjunto de Datos</h3>
               <ul class="list-disc pl-5 space-y-1 text-muted-foreground">
-                <li>Total de imágenes: 1650</li>
+                <li>Total de imágenes: 9786</li>
                 <li>Grados de KOA (escala Kellgren-Lawrence): 0-4</li>
                 <li>Resolución de imágenes: 500x500 píxeles</li>
               </ul>
