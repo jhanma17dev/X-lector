@@ -121,7 +121,7 @@ export default {
         formData.append('image', file)
         
         // Realizar la solicitud a la API
-        const response = await fetch('http://localhost:5000/predict', {
+        const response = await fetch(import.meta.env.VITE_MODEL_URL, {
           method: 'POST',
           body: formData,
         })
