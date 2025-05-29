@@ -103,7 +103,7 @@ export default {
         // Enviar el archivo a la API para su análisis
         const response = await this.sendToAPI(selectedFile)
 
-        let has_arthritis = response.prediction == 'positive' ? false : true
+        let has_arthritis = response.prediction == 'positive' ? true : false
         
         await this.initializeChat(has_arthritis ? 'positive' : 'negative', filePreview, selectedFile, publicUrl)
       } catch (error) {
