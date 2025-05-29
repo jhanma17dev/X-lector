@@ -7,7 +7,7 @@
 
     <div class="w-full">
       <!-- Tabs navigation -->
-      <div class="tabs-list grid w-full grid-cols-4 mb-4">
+      <div class="tabs-list grid w-full grid-cols-1 mb-4 md:grid-cols-4">
         <button
           class="tab-trigger p-2"
           :class="{ 'active bg-primary text-white': activeTab === 'contexto' }"
