@@ -16,18 +16,17 @@ The main goal of **X-lector** is to assist in the early detection and diagnostic
 - 📤 Upload functionality for radiographic images of the knee.
 - 🧠 Automatic classification of osteoarthritis severity using deep learning (CNN).
 - 💬 Generation of natural language descriptions and suggestions using a language model (LLM).
-- 📋 (Optional) A history of previous analyses for review and tracking.
+- 📋 A history of previous analyses for review and tracking.
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **React** — component-based frontend library
+- **Vue** — component-based frontend library
 - **Vite** — lightning-fast build tool
 - **Tailwind CSS** — utility-first modern styling framework
 - **Axios** — for API requests
-- **React Router DOM** — page routing and navigation
-- **JavaScript / JSX**
+- **JavaScript**
 
 ---
 
