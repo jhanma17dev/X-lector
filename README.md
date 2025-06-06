@@ -1,6 +1,41 @@
-# .
+# 🦴 X-lector — Knee Osteoarthritis Diagnostic Interface
 
-This template should help get you started developing with Vue 3 in Vite.
+**X-lector** is a web-based application developed as part of the final thesis project:  
+**"Knee Osteoarthritis Detection Using CNNs and LLMs for Diagnosis and Recommendations"**.
+
+This frontend acts as an intelligent and user-friendly interface that allows healthcare professionals and researchers to upload knee X-ray images, view diagnostic predictions, and receive AI-generated textual support for diagnosis and recommendations.
+
+> ⚠️ This repository contains only the **frontend**. The backend (containing the AI models) is hosted and developed separately.
+
+---
+
+## 🎯 Objective
+
+The main goal of **X-lector** is to assist in the early detection and diagnostic support of knee osteoarthritis by offering:
+
+- 📤 Upload functionality for radiographic images of the knee.
+- 🧠 Automatic classification of osteoarthritis severity using deep learning (CNN).
+- 💬 Generation of natural language descriptions and suggestions using a language model (LLM).
+- 📋 (Optional) A history of previous analyses for review and tracking.
+
+---
+
+## 🛠️ Technologies Used
+
+- **React** — component-based frontend library
+- **Vite** — lightning-fast build tool
+- **Tailwind CSS** — utility-first modern styling framework
+- **Axios** — for API requests
+- **React Router DOM** — page routing and navigation
+- **JavaScript / JSX**
+
+---
+
+## 🚀 Installation & Setup
+
+To run the project locally, follow these steps:
+
+1. **Clone the repository**:
 
 ## Recommended IDE Setup
 
